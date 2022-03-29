@@ -1,7 +1,7 @@
 const reviewsService = require("./reviews.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
-
+// validation middleware
 async function reviewExists(req, res, next) {
   const review = await reviewsService.read(req.params.reviewId);
   if (review) {

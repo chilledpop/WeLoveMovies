@@ -1,10 +1,11 @@
 const knex = require("../db/connection");
 
-
+// returns a review by ID 
 function read(reviewId) {
   return knex("reviews").select("*").where({ review_id: reviewId }).first();
 }
 
+// updates a review 
 function update(updatedReview) {
   return knex("reviews")
     .select("*")
@@ -18,6 +19,7 @@ function update(updatedReview) {
     });
 }
 
+// deletes a review by ID 
 function destroy(reviewId) {
   return knex("reviews").where({ review_id: reviewId }).del();
 }
