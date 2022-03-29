@@ -1,13 +1,13 @@
 const knex = require("../db/connection");
-const reduceProperties = require("../utils/reduce-properties");
+const mapProperties = require("../utils/map-properties");
 
-const reduceCritic = reduceProperties("critic_id", {
-  critic_id: ["critics", null, "critic_id"],
-  preferred_name: ["critics", null, "preferred_name"],
-  surname: ["critics", null, "surname"],
-  organization_name: ["critics", null, "organization_name"],
-  created_at: ["critics", null, "created_at"],
-  updated_at: ["critics", null, "updated_at"],
+const addCritic = mapProperties({
+  critic_id: "critic.critic_id",
+  preferred_name: "critic.preferred_name",
+  surname: "critic.surname",
+  organization_name: "critic.organization_name",
+  created_at: "critic.created_at",
+  updated_at: "critic.updated_at",
 });
 
 function list() {
@@ -41,7 +41,7 @@ function listMovieReviews(movieId) {
     .join("critics as c", "r.critic_id", "c.critic_id")
     .select("r.*", "c.*")
     .where({ "r.movie_id": movieId })
-    .then(reduceCritic);
+    .then((reviews) => reviews.map(addCritic));
 }
 
 

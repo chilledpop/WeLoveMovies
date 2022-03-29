@@ -34,8 +34,8 @@ async function listTheatersShowingMovie(req, res) {
 
 async function listMovieReviews(req, res) {
   const { movie } = res.locals;
-  const reviews = await moviesService.listMovieReviews(Number(movie.movie_id));
-  res.json({ data: reviews });
+  const data = await moviesService.listMovieReviews(movie.movie_id);
+  res.json({ data });
 }
 
 module.exports = {
