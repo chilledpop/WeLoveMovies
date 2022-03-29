@@ -10,10 +10,12 @@ const addCritic = mapProperties({
   updated_at: "critic.updated_at",
 });
 
+// returns a list of all movies
 function list() {
   return knex("movies").select("*");
 }
 
+// returns only the movies that are currently showing in theaters
 function isShowing() {
   return knex("movies as m")
     .join("movies_theaters as mt", "m.movie_id", "mt.movie_id")
@@ -22,6 +24,7 @@ function isShowing() {
     .groupBy("mt.movie_id");
 }
 
+// returns a single movie by ID
 function read(movieId) {
   return knex("movies")
     .select("*")
@@ -29,6 +32,8 @@ function read(movieId) {
     .first();
 }
 
+
+// returns all theaters where a movie is playing
 function listTheatersShowingMovie(movieId) {
   return knex("theaters as t")
     .join("movies_theaters as mt", "t.theater_id", "mt.theater_id")
@@ -36,6 +41,8 @@ function listTheatersShowingMovie(movieId) {
     .where({ "mt.movie_id": movieId }, { "is_showing": true });
 }
 
+
+// returns all reviews for a movie, including critic details
 function listMovieReviews(movieId) {
   return knex("reviews as r")
     .join("critics as c", "r.critic_id", "c.critic_id")

@@ -1,6 +1,8 @@
 const moviesService = require("./movies.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
+
+// validation middleware
 async function movieExists(req, res, next) {
   const movie = await moviesService.read(req.params.movieId);
   if (movie) {
@@ -22,7 +24,7 @@ async function list(req, res, next) {
   }
 }
 
-async function read(req, res) {
+function read(req, res) {
   res.json({ data: res.locals.movie });
 }
 
@@ -42,7 +44,7 @@ module.exports = {
   list: [asyncErrorBoundary(list)],
   read: [
     asyncErrorBoundary(movieExists), 
-    asyncErrorBoundary(read)
+    read,
   ],
   listTheatersShowingMovie: [
     asyncErrorBoundary(movieExists), 
