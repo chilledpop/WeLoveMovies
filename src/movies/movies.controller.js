@@ -7,6 +7,7 @@ async function movieExists(req, res, next) {
     res.locals.movie = movie;
     return next();
   }
+  
   next({ status: 404, message: "Movie cannot be found."});
 }
 
@@ -25,12 +26,12 @@ async function read(req, res) {
   res.json({ data: res.locals.movie });
 }
 
-async function listTheatersShowingMovie(movieId) {
-  const theaters = await moviesService.listTheatersShowingMovie(res.locals.movieId);
+async function listTheatersShowingMovie(req, res) {
+  const theaters = await moviesService.listTheatersShowingMovie(res.params.movieId);
   res.json({ data: theaters });
 }
 
-async function listMovieReviews(movieId) {
+async function listMovieReviews(req, res) {
   const reviews = await moviesService.listMovieReviews(res.locals.movie);
   res.json({ data: reviews });
 }

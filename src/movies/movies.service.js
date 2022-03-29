@@ -25,7 +25,7 @@ function isShowing() {
 function read(movieId) {
   return knex("movies")
     .select("*")
-    .where({ "movie_id": movieId })
+    .where({ movieId })
     .first();
 }
 
@@ -47,6 +47,7 @@ function listMovieReviews(movieId) {
       "r.movie_id",
     )
     .where({ "r.movie_id": movieId })
+    .first()
     .then(addCritic)
 }
 
