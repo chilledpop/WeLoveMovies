@@ -27,12 +27,14 @@ async function read(req, res) {
 }
 
 async function listTheatersShowingMovie(req, res) {
-  const theaters = await moviesService.listTheatersShowingMovie(res.params.movieId);
+  const { movie } = res.locals;
+  const theaters = await moviesService.listTheatersShowingMovie(movie.movie_id);
   res.json({ data: theaters });
 }
 
 async function listMovieReviews(req, res) {
-  const reviews = await moviesService.listMovieReviews(res.locals.movie);
+  const { movie } = res.locals;
+  const reviews = await moviesService.listMovieReviews(Number(movie.movie_id));
   res.json({ data: reviews });
 }
 

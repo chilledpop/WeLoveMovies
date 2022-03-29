@@ -15,7 +15,7 @@ async function reviewExists(req, res, next) {
 async function update(req, res) {
   const { review } = res.locals;
   const updatedReview = {
-    ...req.locals.review,
+    ...review,
     ...req.body.data,
     review_id: review.review_id,
   };

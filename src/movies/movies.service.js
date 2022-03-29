@@ -1,15 +1,14 @@
 const knex = require("../db/connection");
-const mapProperties = require("../utils/map-properties");
+const reduceProperties = require("../utils/reduce-properties");
 
-const addCritic = mapProperties({
-  critic_id: "critic.critic_id",
-  preferred_name: "critic.preferred_name",
-  surname: "critic.surname",
-  organization_name: "critic.organization_name",
-  created_at: "critic.created_at",
-  updated_at: "critic.updated_at",
-})
-
+const reduceCritic = reduceProperties("critic_id", {
+  critic_id: ["critics", null, "critic_id"],
+  preferred_name: ["critics", null, "preferred_name"],
+  surname: ["critics", null, "surname"],
+  organization_name: ["critics", null, "organization_name"],
+  created_at: ["critics", null, "created_at"],
+  updated_at: ["critics", null, "updated_at"],
+});
 
 function list() {
   return knex("movies").select("*");
@@ -17,15 +16,16 @@ function list() {
 
 function isShowing() {
   return knex("movies as m")
-    .select("m.movie_id", "m.title", "m.description", "m.image_url")
     .join("movies_theaters as mt", "m.movie_id", "mt.movie_id")
+    .select("*")
     .where({ "mt.is_showing": true })
+    .groupBy("mt.movie_id");
 }
 
 function read(movieId) {
   return knex("movies")
     .select("*")
-    .where({ movieId })
+    .where({ "movie_id": movieId })
     .first();
 }
 
@@ -39,16 +39,9 @@ function listTheatersShowingMovie(movieId) {
 function listMovieReviews(movieId) {
   return knex("reviews as r")
     .join("critics as c", "r.critic_id", "c.critic_id")
-    .select(
-      "r.review_id",
-      "r.content",
-      "r.score",
-      "r.critic_id",
-      "r.movie_id",
-    )
+    .select("r.*", "c.*")
     .where({ "r.movie_id": movieId })
-    .first()
-    .then(addCritic)
+    .then(reduceCritic);
 }
 
 
@@ -58,5 +51,4 @@ module.exports = {
   read,
   listTheatersShowingMovie,
   listMovieReviews,
-  delete: destroy,
 }
