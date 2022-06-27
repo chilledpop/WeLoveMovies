@@ -1,5 +1,8 @@
 # WeLoveMovies
 
+# Live Application
+https://welovemovies-tn-client.herokuapp.com/ 
+
 ## Project Objective
 Created a RESTful API using CRUD operations for users to have access to data about movies, theaters, and reviews. 
 
@@ -21,4 +24,3 @@ Created a RESTful API using CRUD operations for users to have access to data abo
 - Write database migrations using Knex's migration tool
 - Deploy the backend server to a cloud service
 
-https://welovemovies-tn-client.herokuapp.com/ 
