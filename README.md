@@ -1,6 +1,6 @@
 # WeLoveMovies
 
-# Live Application
+## Live Application
 https://welovemovies-tn-client.herokuapp.com/ 
 
 ## Project Objective
